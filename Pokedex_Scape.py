@@ -13,11 +13,19 @@ def names():
         name=pokemon.find("a","ent-name").text.strip()
         poke_list.append(name)
     return poke_list
+
+def normalize_string(str):
+    str=str.replace("'",'') #for farfetch'd
+    str=str.replace("♀",'-f')   #for nidoran female
+    str=str.replace("♂",'-m')   #for nidoran male
+    str=str.replace(". ",'-')    #for mr.mime
+    return(str)
+
+
 def moves(poke_list):
     poke_dict={}
-    
     for pokemon in poke_list:
-#        time.sleep(1)
+        pokemon=normalize_string(pokemon)
         move_list=[]
         url = "https://pokemondb.net/pokedex/{:s}/moves/1".format(pokemon)
         r = requests.get(url)
